@@ -84,6 +84,8 @@ const DroppableColumn = ({ column, tasks, onEdit, onDelete }) => {
     id: column.id,
   });
 
+  const taskIds = tasks.map(task => task.id);
+
   return (
     <div
       ref={setNodeRef}
