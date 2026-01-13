@@ -181,7 +181,7 @@ const Dashboard = () => {
                   <p className="text-sm text-gray-500">{getTasksByStatus(column.id).length} tasks</p>
                 </div>
 
-                <Droppable droppableId={column.id}>
+                <Droppable droppableId={column.id} isDropDisabled={false}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
