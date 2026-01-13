@@ -67,10 +67,12 @@ const Dashboard = () => {
   };
 
   const onDragEnd = async (dragResult) => {
+    console.log('onDragEnd called:', dragResult);
     const { destination, source, draggableId } = dragResult;
 
     // Dropped outside the list
     if (!destination) {
+      console.log('Dropped outside list');
       return;
     }
 
@@ -79,12 +81,18 @@ const Dashboard = () => {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
+      console.log('No movement detected');
       return;
     }
 
     // Get the task being moved
     const task = tasks.find(t => t.id === draggableId);
     const newStatus = destination.droppableId;
+    
+    console.log(`Moving task "${task?.title}" from ${source.droppableId} to ${newStatus}`);
+
+    // Store original tasks for revert
+    const originalTasks = [...tasks];
 
     // Update locally first for better UX
     const updatedTasks = tasks.map(t => 
@@ -96,8 +104,11 @@ const Dashboard = () => {
     const result = await taskAPI.updateTask(draggableId, { status: newStatus });
     if (!result.success) {
       // Revert on error
+      console.error('Failed to update task:', result.error);
       setError(result.error);
-      setTasks(tasks);
+      setTasks(originalTasks);
+    } else {
+      console.log('Task status updated successfully');
     }
   };
 
