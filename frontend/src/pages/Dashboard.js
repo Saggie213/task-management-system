@@ -77,42 +77,39 @@ const Dashboard = () => {
     setSelectedTask(null);
   };
 
-  const onDragEnd = async (dragResult) => {
-    console.log('onDragEnd called:', dragResult);
-    const { destination, source, draggableId } = dragResult;
+  const handleDragStart = (event) => {
+    setActiveId(event.active.id);
+  };
 
-    // Dropped outside the list
-    if (!destination) {
-      console.log('Dropped outside list');
-      return;
-    }
-
-    // No movement
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      console.log('No movement detected');
-      return;
-    }
-
-    // Get the task being moved
-    const task = tasks.find(t => t.id === draggableId);
-    const newStatus = destination.droppableId;
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
     
-    console.log(`Moving task "${task?.title}" from ${source.droppableId} to ${newStatus}`);
+    setActiveId(null);
+
+    if (!over) return;
+
+    const taskId = active.id;
+    const newStatus = over.id;
+
+    // Find the task
+    const task = tasks.find(t => t.id === taskId);
+    
+    // If dropped in the same column, do nothing
+    if (task && task.status === newStatus) return;
+
+    console.log(`Moving task ${taskId} to ${newStatus}`);
 
     // Store original tasks for revert
     const originalTasks = [...tasks];
 
     // Update locally first for better UX
     const updatedTasks = tasks.map(t => 
-      t.id === draggableId ? { ...t, status: newStatus } : t
+      t.id === taskId ? { ...t, status: newStatus } : t
     );
     setTasks(updatedTasks);
 
     // Update on backend
-    const result = await taskAPI.updateTask(draggableId, { status: newStatus });
+    const result = await taskAPI.updateTask(taskId, { status: newStatus });
     if (!result.success) {
       // Revert on error
       console.error('Failed to update task:', result.error);
