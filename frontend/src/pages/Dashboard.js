@@ -47,7 +47,8 @@ const Dashboard = () => {
 
     const result = await taskAPI.deleteTask(taskId);
     if (result.success) {
-      setTasks(tasks.filter(t => t.id !== taskId));
+      // Update state immediately to remove the task
+      setTasks(prevTasks => prevTasks.filter(t => t.id !== taskId));
     } else {
       setError(result.error);
     }
