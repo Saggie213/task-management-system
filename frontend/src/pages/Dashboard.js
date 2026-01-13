@@ -65,8 +65,8 @@ const Dashboard = () => {
     setSelectedTask(null);
   };
 
-  const onDragEnd = async (result) => {
-    const { destination, source, draggableId } = result;
+  const onDragEnd = async (dragResult) => {
+    const { destination, source, draggableId } = dragResult;
 
     // Dropped outside the list
     if (!destination) {
