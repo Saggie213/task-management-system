@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DndContext, DragOverlay, closestCorners, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { taskAPI } from '../api/tasks';
 import TaskModal from '../components/TaskModal';
 import { format } from 'date-fns';
