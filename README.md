@@ -419,39 +419,6 @@ This project fulfills all the requirements specified in the OZi Technologies SDE
 
 ---
 
-## 🧪 Testing
-
-### Manual Testing
-
-1. **Test User Registration:**
-   ```bash
-   curl -X POST http://localhost:8001/api/auth/signup \
-     -H "Content-Type: application/json" \
-     -d '{"username":"testuser","email":"test@example.com","password":"password123"}'
-   ```
-
-2. **Test User Login:**
-   ```bash
-   curl -X POST http://localhost:8001/api/auth/login \
-     -H "Content-Type: application/json" \
-     -d '{"email":"test@example.com","password":"password123"}'
-   ```
-
-3. **Test Create Task:**
-   ```bash
-   curl -X POST http://localhost:8001/api/tasks \
-     -H "Content-Type: application/json" \
-     -H "Authorization: Bearer <your_token>" \
-     -d '{"title":"Test Task","status":"pending"}'
-   ```
-
-4. **Test Get Tasks:**
-   ```bash
-   curl -X GET http://localhost:8001/api/tasks \
-     -H "Authorization: Bearer <your_token>"
-   ```
-
----
 
 ## 📝 License
 
